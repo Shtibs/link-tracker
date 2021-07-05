@@ -1,19 +1,18 @@
 {
   "manifest_version": 2,
-  "name": "Extension Name",
+  "name": "Link Tracker",
   "version": "0.1",
-  "description": "Some Description",
-  "permissions": [
-  ],
+  "description": "Track your progress reading or watching something without the need to remeber what chapter or episode you are!",
+  "permissions": ["tabs", "storage"],
   "background": {
     "scripts": ["static/js/background.js"]
   },
-  "content_scripts": [{
-    "js": [ "static/js/content.js" ],
-    "matches": [
-      "http://*.example.com/*", "https://*.example.com/*"
-    ]
-  }],
+  "content_scripts": [
+    {
+      "js": ["static/js/content.js"],
+      "matches": ["*://*/*"]
+    }
+  ],
   "icons": {
     "192": "logo192.png"
   },
