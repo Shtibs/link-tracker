@@ -96,10 +96,10 @@ const Link = (props: {
               type="text"
               className="edit-title"
               hidden={!editMode}
-              name="linkURL"
+              name="baseURL"
               placeholder="Base URL:"
               value={newLink.baseURL}
-              onChange={(e) => handleChange(e, "linkURL")}
+              onChange={(e) => handleChange(e, "baseURL")}
             />
           ) : (
             <span className="host" hidden={editMode} onClick={goToURL}>
