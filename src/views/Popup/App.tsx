@@ -2,32 +2,28 @@ import React, { useState, useEffect } from 'react'
 import { TrackedLink } from '../../Types'
 import Header from '../../Components/Header'
 import LinkBox from '../../Components/LinkBox'
-// import { HighlightSpanKind } from 'typescript'
+import { getLinksAsync, setLinksAsync } from '../../background'
 
 function App() {
   const [links, setLinks] = useState<TrackedLink[]>([])
   useEffect(() => {
-    chrome.storage.sync.get(['links'], (data) => {
-      const newLinks: TrackedLink[] = JSON.parse(data.links)
-      setLinks([...newLinks])
-    })
+    initializeLinks()
   }, [])
+
   useEffect(() => {
-    const stringLinks = JSON.stringify(links)
-    chrome.storage.sync.set({ links: stringLinks })
+    setLinksAsync(links)
   }, [links])
 
-  chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (changeInfo.status === 'complete' && tab.active) {
-      console.log('UPDATED', tab.url)
-    }
-  })
+  const initializeLinks = async () => {
+    const newLinks = await getLinksAsync()
+    setLinks([...newLinks])
+  }
 
   const addLink = (newLink: TrackedLink) => {
     const existingLink = links.find((l) =>
       newLink.baseURL.startsWith(l.baseURL),
     )
-    if (existingLink !== undefined) {
+    if (existingLink) {
       existingLink.LastVisitURL = newLink.baseURL
       updateLink(existingLink, existingLink.title)
       return
@@ -49,7 +45,7 @@ function App() {
   }
   return (
     <React.Fragment>
-      <Header addLink={addLink} />
+      <Header links={links} addLink={addLink} />
       <LinkBox
         linkList={links}
         updateLink={updateLink}

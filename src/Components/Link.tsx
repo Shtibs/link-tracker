@@ -8,7 +8,7 @@ const defaultLink: TrackedLink = {
 
 const Link = (props: {
   link: TrackedLink
-  updateLink: (newLink: TrackedLink, oldTitle: string) => void
+  updateLink: (newLink: TrackedLink, title: string) => void
   deleteLink: (linkTitle: string) => void
 }) => {
   const [newLink, setNewLink] = useState<TrackedLink>(defaultLink)
