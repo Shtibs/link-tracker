@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { TrackedLink } from '../Types'
+import { useSpring, animated } from 'react-spring'
+import '../views/Popup/Style.scss'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 const defaultLink: TrackedLink = {
   title: '',
@@ -8,11 +11,18 @@ const defaultLink: TrackedLink = {
 
 const Link = (props: {
   link: TrackedLink
+  id: number
   updateLink: (newLink: TrackedLink, title: string) => void
   deleteLink: (linkTitle: string) => void
 }) => {
   const [newLink, setNewLink] = useState<TrackedLink>(defaultLink)
   const [editMode, setEditMode] = useState<boolean>(false)
+  const fadeIn = useSpring({
+    to: { transform: 'translatex(0%)' },
+    from: { transform: 'translatex(100%)' },
+    leave: { transform: 'translatex(100%)' },   
+    delay: props.id * 50,
+  })
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     property: string,
@@ -46,17 +56,18 @@ const Link = (props: {
   )
 
   return (
-    <div
-      className="card container my-2 pointer"
+    <animated.div
+      style={fadeIn}
+      className="link-item"
       title={
         'Current: ' + props.link.LastVisitURL?.substr(props.link.baseURL.length)
       }
     >
       {editMode ? (
         <div className="row">
-          <div className="align-self-center col-2 p-2">{favicon}</div>
+          <div className="link-image">{favicon}</div>
 
-          <div className="col-9 container">
+          <div className="link-content">
             <div className="row">
               <input
                 type="text"
@@ -80,34 +91,34 @@ const Link = (props: {
               />
             </div>
           </div>
-          <div className="col-1 container align-self-center">
+          <div className="link-buttons">
             <div className="row">
               <button
                 title="Discard changes"
-                className="btn px-0"
+                className="icon btn px-0"
                 onClick={discardEdit}
               >
-                <i className="bi bi-x-circle"></i>
+                <i className="far fa-times-circle"></i>
               </button>
             </div>
             <div className="row">
               <button
                 title="Save changes"
-                className="btn px-0"
+                className="icon btn px-0"
                 onClick={saveChanges}
               >
-                <i className="bi bi-save"></i>
+                <i className="fa fa-save"></i>
               </button>
             </div>
           </div>
         </div>
       ) : (
         <div className="row">
-          <div className="align-self-center col-2 p-2" onClick={goToURL}>
+          <div className="link-image" onClick={goToURL}>
             {favicon}
           </div>
 
-          <div className="col-9 container align-self-center" onClick={goToURL}>
+          <div className="link-content" onClick={goToURL}>
             <div className="row">
               <strong className="card-title text-truncate">
                 {props.link.title}
@@ -120,29 +131,29 @@ const Link = (props: {
             </div>
           </div>
 
-          <div className="col-1 container align-self-center">
+          <div className="link-buttons">
             <div className="row">
               <button
                 title="Remove link"
-                className="btn px-0"
+                className="icon btn px-0"
                 onClick={deleteLink}
               >
-                <i className="bi bi-x-circle"></i>
+                <i className="far fa-times-circle"></i>
               </button>
             </div>
             <div className="row">
               <button
                 title="Edit link"
-                className="btn px-0"
+                className="icon btn px-0"
                 onClick={enableEdit}
               >
-                <i className="bi bi-pencil-square"></i>
+                <i className="fa fa-edit"></i>
               </button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </animated.div>
   )
 }
 
