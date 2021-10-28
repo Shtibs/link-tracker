@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { TrackedLink } from '../Types'
 import { getCurrentTabAsync } from '../background'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../views/Popup/Style.css'
+import '@fortawesome/fontawesome-free/css/all.css'
+import '../views/Popup/Style.scss'
 
 const Header = (props: {
   links: TrackedLink[]
@@ -38,27 +39,20 @@ const Header = (props: {
     props.addLink(newLink)
   }
 
-  const addButton = isLinkExists ? (
-    <button
-      className="btn btn-success btn-circle mx-2"
-      title="This page is already saved."
-      disabled
-    >
-      <i className="bi bi-check-lg"></i>
-    </button>
-  ) : (
-    <button
-      className="btn btn-secondary btn-circle mx-2"
-      onClick={addLink}
-      title="Add current page to the link list."
-    >
-      <i className="bi bi-plus-lg"></i>
-    </button>
-  )
+  const tooltip = isLinkExists
+    ? 'This page is already saved.'
+    : 'Add current page to the link list.'
+
+  const styleClasses = `btn-circle ${isLinkExists ? 'success' : 'secondary'}`
+
   return (
-    <header className="d-flex justify-content-center mt-3 mx-3 card-header">
-      <h1 data-localize="appName">Link Tracker</h1>
-      {addButton}
+    <header className="ext-header">
+      <div className="header-content">
+        <h1 data-localize="appName">Link Tracker</h1>
+        <button className={styleClasses} onClick={addLink} title={tooltip}>
+          <i></i>
+        </button>
+      </div>
     </header>
   )
 }
