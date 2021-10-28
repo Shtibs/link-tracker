@@ -1,0 +1,141 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/@fortawesome/fontawesome-free/css/all";
+$buttonRadius: 40px;
+
+:root {
+    --dark-bg: #181818;
+    --light-bg: #fff;
+    --light-link: rgb(212, 212, 212);
+    --dark-link: rgb(92, 91, 91);
+    --background: var(--light-bg);
+    --foreground: var(--dark-bg);
+    --link-bg: var(--light-link);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: var(--dark-bg);
+        --foreground: var(--light-bg);
+        --link-bg: var(--dark-link);
+    }
+}
+
+@mixin enlarge($bigSize) {
+    transition: transform 0.2s ease-out;
+    -webkit-transition: -webkit-transform 0.2s ease-out;
+    -moz-transition: -moz-transform 0.2s ease-out;
+    -o-transition: -o-transform 0.2s ease-out;
+    -ms-transition: -ms-transform 0.2s ease-out;
+
+    &:hover {
+        -webkit-transform: scale($bigSize) !important;
+        -moz-transform: scale($bigSize) !important;
+        -o-transform: scale($bigSize) !important;
+        transform: scale($bigSize) !important;
+    }
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+#root {
+    border: none !important;
+}
+
+i {
+    color: var(--foreground);
+}
+
+input {
+    margin: 1px;
+}
+
+.ext-header {
+    @extend .card-header;
+    padding-top: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+.header-content {
+    @extend .d-flex;
+    @extend .justify-content-center;
+}
+
+.card-body {
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+.secondary {
+    @extend .btn-secondary;
+}
+
+.success {
+    @extend .btn-success;
+    @extend .disabled;
+}
+
+.btn-circle {
+    @extend .btn;
+    @extend .mx-2;
+    border-radius: 50%;
+    width: $buttonRadius;
+    height: $buttonRadius;
+}
+
+button.btn-circle.secondary i {
+    @extend .fa;
+    @extend .fa-plus;
+}
+
+button.btn-circle.success i {
+    @extend .fa;
+    @extend .fa-check;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.link-item {
+    @extend .card;
+    @extend .container;
+    @extend .my-2;
+    @extend .pointer;
+    @include enlarge(1.03);
+    background-color: var(--link-bg);
+    color: var(--foreground);
+}
+
+.link-image {
+    @extend .align-self-center;
+    @extend .col-2;
+    @extend .p-2;
+}
+
+.link-content {
+    @extend .col-9;
+    @extend .container;
+    @extend .align-self-center;
+}
+
+.link-buttons {
+    @extend .col-1;
+    @extend .container;
+    @extend .align-self-center;
+}
+
+.icon {
+    @include enlarge(1.5);
+    border: transparent;
+    box-shadow: none !important;
+
+    .fa-edit {
+        margin-left: 2px;
+    }
+}
