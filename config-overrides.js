@@ -2,6 +2,7 @@ const paths = require('react-scripts/config/paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 // Export override function(s) via object
 module.exports = {
@@ -69,7 +70,7 @@ function override(config, env) {
   config.plugins.push(optionsHtmlPlugin);
 
   // Custom ManifestPlugin instance to cast asset-manifest.json back to old plain format
-  const manifestPlugin = new ManifestPlugin({
+  const manifestPlugin = new WebpackManifestPlugin({
     fileName: 'asset-manifest.json',
   });
   // Replace original ManifestPlugin instance in config.plugins with the above one
